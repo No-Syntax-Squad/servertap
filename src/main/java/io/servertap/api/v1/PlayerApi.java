@@ -7,6 +7,9 @@ import io.servertap.Constants;
 import io.servertap.api.v1.models.ItemStack;
 import io.servertap.api.v1.models.Player;
 import io.servertap.utils.pluginwrappers.EconomyWrapper;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -138,6 +141,9 @@ public class PlayerApi {
     )
     public void offlinePlayersGet(Context ctx) {
 
+        // LuckPerms API
+        LuckPerms luckPermsAPI = LuckPermsProvider.get();
+
         ArrayList<io.servertap.api.v1.models.OfflinePlayer> players = new ArrayList<>();
 
         OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
@@ -150,6 +156,14 @@ public class PlayerApi {
             p.setWhitelisted(offlinePlayer.isWhitelisted());
             p.setBanned(offlinePlayer.isBanned());
             p.setOp(offlinePlayer.isOp());
+
+            User user = luckPermsAPI.getUserManager().getUser(offlinePlayer.getUniqueId().toString());
+            if (user != null) {
+                String primaryGroup = user.getPrimaryGroup();
+                p.setRank(primaryGroup);
+            } else {
+                p.setRank("Undefined");
+            }
 
             if (economy.isAvailable()) {
                 p.setBalance(economy.getPlayerBalance(offlinePlayer));
