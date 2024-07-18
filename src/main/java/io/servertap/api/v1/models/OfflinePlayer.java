@@ -27,6 +27,9 @@ public class OfflinePlayer {
     @Expose
     private Long lastPlayed = null;
 
+    @Expose
+    private String rank = null;
+
     public OfflinePlayer uuid(String uuid) {
         this.uuid = uuid;
         return this;
@@ -140,5 +143,13 @@ public class OfflinePlayer {
 
     public void setLastPlayed(Long lastPlayed) {
         this.lastPlayed = lastPlayed;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
     }
 }
