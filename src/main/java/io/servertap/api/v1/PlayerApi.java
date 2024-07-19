@@ -9,21 +9,29 @@ import io.servertap.api.v1.models.Player;
 import io.servertap.utils.pluginwrappers.EconomyWrapper;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
+
+import static io.servertap.Constants.RANK_NOT_FOUND;
 
 public class PlayerApi {
     private final EconomyWrapper economy;
     private final Logger log;
+
+    static final String[] POSSIBLE_GROUPS = {"owner", "DEVELOPER", "MOD", "TRAINEE", "MANAGER"};
 
     public PlayerApi(Logger log, EconomyWrapper economy) {
         this.economy = economy;
@@ -141,9 +149,7 @@ public class PlayerApi {
     )
     public void offlinePlayersGet(Context ctx) {
 
-        // LuckPerms API
-        LuckPerms luckPermsAPI = LuckPermsProvider.get();
-
+        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         ArrayList<io.servertap.api.v1.models.OfflinePlayer> players = new ArrayList<>();
 
         OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
@@ -157,12 +163,26 @@ public class PlayerApi {
             p.setBanned(offlinePlayer.isBanned());
             p.setOp(offlinePlayer.isOp());
 
-            User user = luckPermsAPI.getUserManager().getUser(offlinePlayer.getUniqueId().toString());
-            if (user != null) {
-                String primaryGroup = user.getPrimaryGroup();
-                p.setRank(primaryGroup);
-            } else {
-                p.setRank("Undefined");
+            if (provider != null) {
+                LuckPerms luckPermsAPI = provider.getProvider();
+                @NonNull CompletableFuture<User> user = luckPermsAPI.getUserManager().loadUser(offlinePlayer.getUniqueId());
+                try {
+                    Collection<Group> inheritedGroups = user.get().getInheritedGroups(user.get().getQueryOptions());
+                    final String[] PLAYER_RANK = {"Undefined"};
+                    inheritedGroups.forEach(g -> {
+                        for (String group : POSSIBLE_GROUPS) {
+                            if(g.getName().equals(group)) {
+                                PLAYER_RANK[0] = group;
+                                break;
+                            }
+                        }
+                    });
+                    p.setRank(PLAYER_RANK[0]);
+                } catch (InterruptedException | ExecutionException e) {
+                    System.err.println("[RankAPI] - " + RANK_NOT_FOUND + "/n");
+                    System.err.println(e.getMessage());
+                    System.err.println(Arrays.toString(e.getStackTrace()));
+                }
             }
 
             if (economy.isAvailable()) {
