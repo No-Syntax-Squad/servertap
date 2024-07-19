@@ -31,7 +31,7 @@ public class PlayerApi {
     private final EconomyWrapper economy;
     private final Logger log;
 
-    static final String[] POSSIBLE_GROUPS = {"owner", "developer", "mod", "admin", "manager", "trainee", "media", "royal", "imperial", "knightly", "noble", "booster", "default"};
+    static final String[] POSSIBLE_GROUPS = new String[]{"owner", "developer", "mod", "admin", "manager", "trainee", "media", "royal", "imperial", "knightly", "noble", "booster", "default"};
 
     public PlayerApi(Logger log, EconomyWrapper economy) {
         this.economy = economy;
@@ -168,10 +168,10 @@ public class PlayerApi {
                 @NonNull CompletableFuture<User> user = luckPermsAPI.getUserManager().loadUser(offlinePlayer.getUniqueId());
                 try {
                     Collection<Group> inheritedGroups = user.get().getInheritedGroups(user.get().getQueryOptions());
-                    final String[] PLAYER_RANK = {"Undefined"};
+                    final String[] PLAYER_RANK = new String[1];
                     inheritedGroups.forEach(g -> {
                         for (String group : POSSIBLE_GROUPS) {
-                            if(g.getName().equals(group)) {
+                            if(g.getName().equalsIgnoreCase(group)) {
                                 PLAYER_RANK[0] = group;
                                 break;
                             }
