@@ -8,9 +8,8 @@ import io.servertap.api.v1.models.ItemStack;
 import io.servertap.api.v1.models.Player;
 import io.servertap.utils.pluginwrappers.EconomyWrapper;
 import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
-import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.Node;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -30,8 +29,6 @@ import static io.servertap.Constants.RANK_NOT_FOUND;
 public class PlayerApi {
     private final EconomyWrapper economy;
     private final Logger log;
-
-    static final String[] POSSIBLE_GROUPS = new String[]{"owner", "developer", "mod", "admin", "manager", "trainee", "media", "royal", "imperial", "knightly", "noble", "booster", "default"};
 
     public PlayerApi(Logger log, EconomyWrapper economy) {
         this.economy = economy;
@@ -167,17 +164,22 @@ public class PlayerApi {
                 LuckPerms luckPermsAPI = provider.getProvider();
                 @NonNull CompletableFuture<User> user = luckPermsAPI.getUserManager().loadUser(offlinePlayer.getUniqueId());
                 try {
-                    Collection<Group> inheritedGroups = user.get().getInheritedGroups(user.get().getQueryOptions());
-                    final String[] PLAYER_RANK = new String[1];
-                    inheritedGroups.forEach(g -> {
-                        for (String group : POSSIBLE_GROUPS) {
-                            if(g.getName().equalsIgnoreCase(group)) {
-                                PLAYER_RANK[0] = group;
-                                break;
-                            }
-                        }
+                    Collection<Node> nodes = user.get().getNodes();
+                    nodes.forEach(node -> {
+                        if (node.getKey().equals("group.default")) p.setRank("Default");
+                        if (node.getKey().equals("group.booster")) p.setRank("Booster");
+                        if (node.getKey().equals("group.noble")) p.setRank("Noble");
+                        if (node.getKey().equals("group.knightly")) p.setRank("Knightly");
+                        if (node.getKey().equals("group.imperial")) p.setRank("Imperial");
+                        if (node.getKey().equals("group.royal")) p.setRank("Royal");
+                        if (node.getKey().equals("group.media")) p.setRank("Media");
+                        if (node.getKey().equals("group.trainee")) p.setRank("Trainee");
+                        if (node.getKey().equals("group.mod")) p.setRank("Mod");
+                        if (node.getKey().equals("group.admin")) p.setRank("Admin");
+                        if (node.getKey().equals("group.manager")) p.setRank("Manager");
+                        if (node.getKey().equals("group.developer")) p.setRank("Developer");
+                        if (node.getKey().equals("group.owner")) p.setRank("Owner");
                     });
-                    p.setRank(PLAYER_RANK[0]);
                 } catch (InterruptedException | ExecutionException e) {
                     System.err.println("[RankAPI] - " + RANK_NOT_FOUND + "/n");
                     System.err.println(e.getMessage());
