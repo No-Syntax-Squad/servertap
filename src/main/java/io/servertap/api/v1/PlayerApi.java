@@ -31,7 +31,7 @@ public class PlayerApi {
     private final EconomyWrapper economy;
     private final Logger log;
 
-    static final String[] POSSIBLE_GROUPS = {"owner", "DEVELOPER", "MOD", "TRAINEE", "MANAGER"};
+    static final String[] POSSIBLE_GROUPS = {"owner", "developer", "mod", "admin", "manager", "trainee", "media", "royal", "imperial", "knightly", "noble", "booster", "default"};
 
     public PlayerApi(Logger log, EconomyWrapper economy) {
         this.economy = economy;
