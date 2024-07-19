@@ -15,6 +15,7 @@ public class Constants {
     public static final String PLAYER_UUID_MISSING = "Player UUID is required";
     public static final String PLAYER_INV_PARSE_FAIL = "A problem occured when attempting to parse the user file";
     public static final String PLAYER_NOT_FOUND = "Player cannot be found";
+    public static final String RANK_NOT_FOUND = "Error fetching player rank from Bukkit and LuckPerms";
 
     //Whitelist Related Messages
     public static final String WHITELIST_MISSING_PARAMS = "Missing one of uuid or username";
