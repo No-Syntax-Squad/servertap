@@ -10,10 +10,9 @@ import io.servertap.utils.pluginwrappers.EconomyWrapper;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
+import org.black_ixx.playerpoints.PlayerPoints;
+import org.black_ixx.playerpoints.PlayerPointsAPI;
+import org.bukkit.*;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -148,6 +147,7 @@ public class PlayerApi {
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         ArrayList<io.servertap.api.v1.models.OfflinePlayer> players = new ArrayList<>();
+        PlayerPointsAPI playerPointsAPI = PlayerPoints.getInstance().getAPI();
 
         OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
 
@@ -187,6 +187,9 @@ public class PlayerApi {
                 }
             }
 
+            if (playerPointsAPI != null) {
+                p.setPoints(playerPointsAPI.look(offlinePlayer.getUniqueId()));
+            }
             if (economy.isAvailable()) {
                 p.setBalance(economy.getPlayerBalance(offlinePlayer));
             }
