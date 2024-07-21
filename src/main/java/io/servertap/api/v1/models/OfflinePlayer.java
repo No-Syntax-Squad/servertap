@@ -30,6 +30,9 @@ public class OfflinePlayer {
     @Expose
     private String rank = null;
 
+    @Expose
+    private int points = 0;
+
     public OfflinePlayer uuid(String uuid) {
         this.uuid = uuid;
         return this;
@@ -151,5 +154,13 @@ public class OfflinePlayer {
 
     public void setRank(String rank) {
         this.rank = rank;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }
