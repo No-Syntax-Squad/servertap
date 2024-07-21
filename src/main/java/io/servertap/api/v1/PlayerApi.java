@@ -162,6 +162,7 @@ public class PlayerApi {
             p.setWhitelisted(offlinePlayer.isWhitelisted());
             p.setBanned(offlinePlayer.isBanned());
             p.setOp(offlinePlayer.isOp());
+            p.setKills(offlinePlayer.getStatistic(Statistic.PLAYER_KILLS));
 
             // Code for LuckPerms Rank
             if (provider != null) {
