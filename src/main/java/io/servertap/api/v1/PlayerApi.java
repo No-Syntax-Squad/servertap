@@ -145,8 +145,11 @@ public class PlayerApi {
     )
     public void offlinePlayersGet(Context ctx) {
 
+        // LuckPerms Provider
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+        // Players Array to send
         ArrayList<io.servertap.api.v1.models.OfflinePlayer> players = new ArrayList<>();
+        // PlayerPoints API/Provider
         PlayerPointsAPI playerPointsAPI = PlayerPoints.getInstance().getAPI();
 
         OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
@@ -160,6 +163,7 @@ public class PlayerApi {
             p.setBanned(offlinePlayer.isBanned());
             p.setOp(offlinePlayer.isOp());
 
+            // Code for LuckPerms Rank
             if (provider != null) {
                 LuckPerms luckPermsAPI = provider.getProvider();
                 @NonNull CompletableFuture<User> user = luckPermsAPI.getUserManager().loadUser(offlinePlayer.getUniqueId());
@@ -187,6 +191,7 @@ public class PlayerApi {
                 }
             }
 
+            // Code for PlayerPoints
             if (playerPointsAPI != null) {
                 p.setPoints(playerPointsAPI.look(offlinePlayer.getUniqueId()));
             }
