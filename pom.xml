@@ -23,11 +23,11 @@
     </properties>
 
     <repositories>
-        <!-- for vault -->
+
+        <!-- for the PlayerPoints plugin -->
         <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public/</url>
-            <layout>default</layout>
+            <id>rosewood-repo</id>
+            <url>https://repo.rosewooddev.io/repository/public/</url>
         </repository>
 
         <!-- for placeholders -->
@@ -46,6 +46,13 @@
         <repository>
             <id>reposilite-repository</id>
             <url>https://maven.reposilite.com/snapshots</url>
+        </repository>
+
+        <!-- for vault -->
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+            <layout>default</layout>
         </repository>
     </repositories>
 
@@ -179,6 +186,13 @@
             <groupId>net.luckperms</groupId>
             <artifactId>api</artifactId>
             <version>5.4</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.black_ixx</groupId>
+            <artifactId>playerpoints</artifactId>
+            <version>3.2.7</version>
             <scope>provided</scope>
         </dependency>
 
