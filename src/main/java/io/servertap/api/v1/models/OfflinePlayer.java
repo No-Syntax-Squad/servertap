@@ -33,6 +33,9 @@ public class OfflinePlayer {
     @Expose
     private int points = 0;
 
+    @Expose
+    private int kills = 0;
+
     public OfflinePlayer uuid(String uuid) {
         this.uuid = uuid;
         return this;
@@ -162,5 +165,13 @@ public class OfflinePlayer {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
     }
 }
