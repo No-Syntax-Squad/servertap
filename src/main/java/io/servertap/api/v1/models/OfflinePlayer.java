@@ -2,6 +2,8 @@ package io.servertap.api.v1.models;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.Date;
+
 /**
  * An offline player
  */
@@ -28,6 +30,9 @@ public class OfflinePlayer {
     private Long lastPlayed = null;
 
     @Expose
+    private Date lastLogin = null;
+
+    @Expose
     private String rank = null;
 
     @Expose
@@ -35,6 +40,12 @@ public class OfflinePlayer {
 
     @Expose
     private int kills = 0;
+
+    @Expose
+    private boolean isPremium = false;
+
+    @Expose
+    private boolean isBedrock = false;
 
     public OfflinePlayer uuid(String uuid) {
         this.uuid = uuid;
@@ -173,5 +184,29 @@ public class OfflinePlayer {
 
     public void setKills(int kills) {
         this.kills = kills;
+    }
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean premium) {
+        isPremium = premium;
+    }
+
+    public boolean isBedrock() {
+        return isBedrock;
+    }
+
+    public void setBedrock(boolean bedrock) {
+        isBedrock = bedrock;
+    }
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }
