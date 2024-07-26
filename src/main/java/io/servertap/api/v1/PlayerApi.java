@@ -7,14 +7,18 @@ import io.servertap.Constants;
 import io.servertap.api.v1.models.ItemStack;
 import io.servertap.api.v1.models.Player;
 import io.servertap.utils.pluginwrappers.EconomyWrapper;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.*;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.geysermc.geyser.api.GeyserApi;
+import org.geysermc.geyser.api.connection.GeyserConnection;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -164,6 +168,7 @@ public class PlayerApi {
             p.setOp(offlinePlayer.isOp());
             p.setKills(offlinePlayer.getStatistic(Statistic.PLAYER_KILLS));
 
+
             // Code for LuckPerms Rank
             if (provider != null) {
                 LuckPerms luckPermsAPI = provider.getProvider();
@@ -196,6 +201,17 @@ public class PlayerApi {
             if (playerPointsAPI != null) {
                 p.setPoints(playerPointsAPI.look(offlinePlayer.getUniqueId()));
             }
+
+            // Code for PAPI
+            if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+                p.setPremium(PlaceholderAPI.setPlaceholders(offlinePlayer, "%fastlogin_status%").equals("Premium"));
+            }
+
+            // Code to Check Bedrock
+            if (Bukkit.getPluginManager().isPluginEnabled("Geyser-Spigot")) {
+                p.setBedrock(GeyserApi.api().connectionByUuid(offlinePlayer.getUniqueId()) != null);
+            }
+
             if (economy.isAvailable()) {
                 p.setBalance(economy.getPlayerBalance(offlinePlayer));
             }
