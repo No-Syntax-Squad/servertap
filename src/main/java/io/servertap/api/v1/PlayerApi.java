@@ -218,6 +218,9 @@ public class PlayerApi {
 
             p.setLastPlayed(offlinePlayer.getLastPlayed());
 
+            // Added code for converting Long Date to Date format
+            p.setLastLogin(new Date(offlinePlayer.getLastLogin()));
+
             players.add(p);
         }
 
