@@ -14,11 +14,9 @@ import net.luckperms.api.node.Node;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.*;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.geyser.api.GeyserApi;
-import org.geysermc.geyser.api.connection.GeyserConnection;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -168,7 +166,6 @@ public class PlayerApi {
             p.setOp(offlinePlayer.isOp());
             p.setKills(offlinePlayer.getStatistic(Statistic.PLAYER_KILLS));
 
-
             // Code for LuckPerms Rank
             if (provider != null) {
                 LuckPerms luckPermsAPI = provider.getProvider();
@@ -216,10 +213,10 @@ public class PlayerApi {
                 p.setBalance(economy.getPlayerBalance(offlinePlayer));
             }
 
-            p.setLastPlayed(offlinePlayer.getLastPlayed());
+            p.setLastPlayed(offlinePlayer.getLastSeen());
 
             // Added code for converting Long Date to Date format
-            p.setLastLogin(new Date(offlinePlayer.getLastLogin()));
+            p.setLastlogin(new Date(offlinePlayer.getLastLogin()));
 
             players.add(p);
         }

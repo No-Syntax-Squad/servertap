@@ -12,7 +12,7 @@ public class OfflinePlayer {
     private String uuid = null;
 
     @Expose
-    private String name = null;
+    private String username = null;
 
     @Expose
     private Boolean whitelisted = null;
@@ -30,7 +30,7 @@ public class OfflinePlayer {
     private Long lastPlayed = null;
 
     @Expose
-    private Date lastLogin = null;
+    private Date lastlogin = null;
 
     @Expose
     private String rank = null;
@@ -81,7 +81,7 @@ public class OfflinePlayer {
     }
 
     public OfflinePlayer name(String displayName) {
-        this.name = displayName;
+        this.username = displayName;
         return this;
     }
 
@@ -91,11 +91,11 @@ public class OfflinePlayer {
      * @return displayName
      **/
     public String getDisplayName() {
-        return name;
+        return username;
     }
 
     public void setDisplayName(String displayName) {
-        this.name = displayName;
+        this.username = displayName;
     }
 
 
@@ -202,11 +202,11 @@ public class OfflinePlayer {
         isBedrock = bedrock;
     }
 
-    public Date getLastLogin() {
-        return lastLogin;
+    public Date getLastlogin() {
+        return lastlogin;
     }
 
-    public void setLastLogin(Date lastLogin) {
-        this.lastLogin = lastLogin;
+    public void setLastlogin(Date lastlogin) {
+        this.lastlogin = lastlogin;
     }
 }
