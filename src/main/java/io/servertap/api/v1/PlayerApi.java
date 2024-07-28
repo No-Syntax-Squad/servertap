@@ -202,6 +202,7 @@ public class PlayerApi {
             // Code for PAPI
             if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 p.setPremium(PlaceholderAPI.setPlaceholders(offlinePlayer, "%fastlogin_status%").equals("Premium"));
+                p.setJoinDate(PlaceholderAPI.setPlaceholders(offlinePlayer, "%player_first_join_date%"));
             }
 
             // Code to Check Bedrock

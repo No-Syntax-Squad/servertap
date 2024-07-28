@@ -47,6 +47,9 @@ public class OfflinePlayer {
     @Expose
     private boolean isBedrock = false;
 
+    @Expose
+    private String joinDate = null;
+
     public OfflinePlayer uuid(String uuid) {
         this.uuid = uuid;
         return this;
@@ -208,5 +211,13 @@ public class OfflinePlayer {
 
     public void setLastlogin(Date lastlogin) {
         this.lastlogin = lastlogin;
+    }
+
+    public String getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(String joinDate) {
+        this.joinDate = joinDate;
     }
 }
